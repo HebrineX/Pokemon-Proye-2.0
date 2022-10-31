@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreatePokeballDto } from './dto/create-pokeball.dto';
-import { UpdatePokeballDto } from './dto/update-pokeball.dto';
-
+import { Pokeball, PokeballDocument } from './model/pokeball.model';
 @Injectable()
 export class PokeballsService {
-  create(createPokeballDto: CreatePokeballDto) {
-    return 'This action adds a new pokeball';
+  constructor(
+    @InjectModel(Pokeball.name)
+    private readonly pokeballModel: Model<PokeballDocument>,
+  ) {}
+
+  async createPokeball(
+    createPokeballDto: CreatePokeballDto,
+  ): Promise<PokeballDocument> {
+    const newPokeball = new this.pokeballModel(createPokeballDto);
+    return await newPokeball.save();
   }
 
-  findAll() {
-    return `This action returns all pokeballs`;
+  async getPokeballs(): Promise<PokeballDocument[]> {
+    const allPokeballs = await this.pokeballModel.find();
+    return allPokeballs;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pokeball`;
+  async getPokeball(idPokeball: string): Promise<PokeballDocument> {
+    const pokeball = await this.pokeballModel.findById(idPokeball);
+    return pokeball;
   }
 
-  update(id: number, updatePokeballDto: UpdatePokeballDto) {
-    return `This action updates a #${id} pokeball`;
+  async updatePokeball(
+    idPokeball: string,
+    updatePokeballDto: CreatePokeballDto,
+  ): Promise<PokeballDocument> {
+    const updatePokeball = await this.pokeballModel.findByIdAndUpdate(
+      idPokeball,
+      updatePokeballDto,
+      { new: true },
+    );
+    return updatePokeball;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokeball`;
+  async deletePokeball(idPokeball: string): Promise<PokeballDocument> {
+    const deletePokeball = await this.pokeballModel.findByIdAndDelete(
+      idPokeball,
+    );
+    return deletePokeball;
   }
 }
