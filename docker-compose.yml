@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  web:
+    container_name: pokemon-proyect
+    restart: always
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    
+
+  mongo:
+    container_name: pokemon-database
+    image: mongo
+    ports: 
+      - "27018:27017"
+    

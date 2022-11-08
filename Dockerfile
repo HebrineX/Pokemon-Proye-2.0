@@ -1,6 +1,6 @@
-FROM node:16.15
+FROM node:19
 
-RUN mkdir -p  /usr/src/app
+RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
