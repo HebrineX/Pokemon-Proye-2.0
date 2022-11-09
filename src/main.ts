@@ -12,7 +12,9 @@ async function bootstrap() {
   console.log(config.DATABASE_URL);
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: true }),
+    new FastifyAdapter({
+      logger: true,
+    }),
   );
 
   await app.listen(config.PORT, '0.0.0.0');

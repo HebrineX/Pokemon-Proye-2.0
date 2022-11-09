@@ -6,7 +6,9 @@ import { Pokeball, PokeballSchema } from './model/pokeball.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Pokeball', schema: PokeballSchema }]),
+    MongooseModule.forFeature([
+      { name: Pokeball.name, schema: PokeballSchema },
+    ]),
   ],
   controllers: [PokeballsController],
   providers: [PokeballsService],

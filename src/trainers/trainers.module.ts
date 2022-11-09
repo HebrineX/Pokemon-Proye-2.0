@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Trainer, TrainerSchema } from './model/trainer.model';
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Trainer', schema: TrainerSchema }]),
+    MongooseModule.forFeature([{ name: Trainer.name, schema: TrainerSchema }]),
   ],
   controllers: [TrainersController],
   providers: [TrainersService],
