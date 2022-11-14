@@ -10,13 +10,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import config from './config';
-console.log(config.DATABASE_URL);
-console.log(process.env.NODE_ENV);
-
-if (process.env.NODE_ENV) {
-  config.DATABASE_URL = process.env.DATABASE_URL_TEST;
-}
-console.log(config.DATABASE_URL);
 
 @Module({
   imports: [
