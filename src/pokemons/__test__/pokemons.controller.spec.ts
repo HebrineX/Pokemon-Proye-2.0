@@ -10,14 +10,11 @@ import {
   FastifyAdapter,
 } from '@nestjs/platform-fastify';
 import { AppModule } from '../../app.module';
-import mongoose, { Model } from 'mongoose';
 
 describe('PokemonsController', () => {
   let app: NestFastifyApplication;
-  let pokemonModel: Model<PokemonDocument>;
-  beforeAll(async () => {
-    mongoose.connect('mongodb://10:27017/Poke-test');
 
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -27,12 +24,37 @@ describe('PokemonsController', () => {
     );
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
+  });
 
-    pokemonModel = module.get<Model<PokemonDocument>>(
-      getModelToken(Pokemon.name),
-    );
-  }, 1000);
-
+  describe('GET', () => {
+    describe('Get all pokemons', () => {
+      it('should return 200 ', async () => {
+        const { body, statusCode, headers, statusMessage } = await app.inject({
+          method: 'GET',
+          url: `/pokemons`,
+        });
+        console.log(body);
+        expect(statusCode).toEqual(200);
+        expect(headers['content-type']).toEqual(
+          'application/json; charset=utf-8',
+        );
+        expect(statusMessage).toEqual('OK');
+        expect(JSON.parse(body)).toMatchObject({});
+      });
+    });
+  });
+  afterEach(async () => {
+    await app.close();
+  });
+  //describe('getPokemons', () => {
+  //  test('must return an Array of type Pokemons[]', async () => {
+  //    const result = await app.inject({
+  //      method: 'GET',
+  //      url: '/pokemons',
+  //    });
+  //    expect(result).toBe(Object);
+  //  });
+  //});
   //  let controller: PokemonsController;
   //  let pokemonService: PokemonsService;
   //  beforeEach(async () => {
@@ -59,29 +81,4 @@ describe('PokemonsController', () => {
   //  await app.init();
   //});
   //
-  describe('GET', () => {
-    describe('Get all pokemons', () => {
-      it('should return 200 ', async () => {
-        const { body, statusCode, headers, statusMessage } = await app.inject({
-          method: 'GET',
-          url: `/pokemons`,
-        });
-        expect(statusCode).toEqual(200);
-        expect(headers['content-type']).toEqual(
-          'application/json; charset=utf-8',
-        );
-        expect(statusMessage).toEqual('OK');
-        expect(JSON.parse(body)).toMatchObject({});
-      });
-    });
-  });
-  //describe('getPokemons', () => {
-  //  test('must return an Array of type Pokemons[]', async () => {
-  //    const result = await app.inject({
-  //      method: 'GET',
-  //      url: '/pokemons',
-  //    });
-  //    expect(result).toBe(Object);
-  //  });
-  //});
 });
