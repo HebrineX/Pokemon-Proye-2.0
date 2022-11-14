@@ -20,6 +20,7 @@ export class PokemonsController {
   @Get('/')
   async getPokemons(@Res() res: FastifyReply) {
     const pokemons = await this.pokemonsServices.getPokemons();
+
     return res.status(HttpStatus.OK).send({
       message: 'Pokemons In Database',
       pokemons,

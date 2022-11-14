@@ -1,18 +1,84 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PokemonsController } from '../pokemons.controller';
+import { PokemonsModule } from '../pokemons.module';
+import { Pokemon, PokemonDocument } from '../model/pokemons.model';
+import { getModelToken } from '@nestjs/mongoose';
+import { PokemonsService } from '../pokemons.service';
+import request from 'supertest';
+import {
+  NestFastifyApplication,
+  FastifyAdapter,
+} from '@nestjs/platform-fastify';
+import { AppModule } from '../../app.module';
 
 describe('PokemonsController', () => {
-  let controller: PokemonsController;
+  let app: NestFastifyApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [PokemonsController],
+      imports: [AppModule],
     }).compile();
 
-    controller = module.get<PokemonsController>(PokemonsController);
+    app = module.createNestApplication<NestFastifyApplication>(
+      new FastifyAdapter(),
+    );
+    await app.init();
+    await app.getHttpAdapter().getInstance().ready();
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  describe('GET', () => {
+    describe('Get all pokemons', () => {
+      it('should return 200 ', async () => {
+        const { body, statusCode, headers, statusMessage } = await app.inject({
+          method: 'GET',
+          url: `/pokemons`,
+        });
+        console.log(body);
+        expect(statusCode).toEqual(200);
+        expect(headers['content-type']).toEqual(
+          'application/json; charset=utf-8',
+        );
+        expect(statusMessage).toEqual('OK');
+        expect(JSON.parse(body)).toMatchObject({});
+      });
+    });
   });
+  afterEach(async () => {
+    await app.close();
+  });
+  //describe('getPokemons', () => {
+  //  test('must return an Array of type Pokemons[]', async () => {
+  //    const result = await app.inject({
+  //      method: 'GET',
+  //      url: '/pokemons',
+  //    });
+  //    expect(result).toBe(Object);
+  //  });
+  //});
+  //  let controller: PokemonsController;
+  //  let pokemonService: PokemonsService;
+  //  beforeEach(async () => {
+  //    const module: TestingModule = await Test.createTestingModule({
+  //      imports: [PokemonsModule],
+  //    })
+  //      .overrideProvider(getModelToken(Pokemon.name))
+  //      .useValue(jest.fn())
+  //      .compile();
+  //
+  //    controller = module.get<PokemonsController>(PokemonsController);
+  //    pokemonService = module.get<PokemonsService>(PokemonsService);
+  //  });
+  //let app: NestFastifyApplication;
+  //
+  //beforeEach(async () => {
+  //  const module = await Test.createTestingModule({
+  //    imports: [AppModule],
+  //  }).compile();
+  //
+  //  app = module.createNestApplication<NestFastifyApplication>(
+  //    new FastifyAdapter(),
+  //  );
+  //  await app.init();
+  //});
+  //
 });

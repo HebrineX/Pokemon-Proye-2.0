@@ -7,6 +7,8 @@ import { TrainersModule } from './trainers/trainers.module';
 import { GymsModule } from './gyms/gyms.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import * as dotenv from 'dotenv';
+dotenv.config();
 import config from './config';
 
 @Module({
