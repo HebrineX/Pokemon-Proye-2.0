@@ -1,45 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PokemonsController } from '../pokemons.controller';
-import { PokemonsModule } from '../pokemons.module';
-import { Pokemon, PokemonDocument } from '../model/pokemons.model';
-import { getModelToken } from '@nestjs/mongoose';
-import { PokemonsService } from '../pokemons.service';
-
 import {
   NestFastifyApplication,
   FastifyAdapter,
 } from '@nestjs/platform-fastify';
 import { AppModule } from '../../app.module';
-import * as dotenv from 'dotenv';
-dotenv.config();
-import config from '../../config/index';
-import { CreatePokemonDTO } from '../dto/pokemon.dto';
-import { pokeType } from '../pokeType';
-import { ObjectID } from 'bson';
 
-describe('PokemonsController', () => {
+describe('gymController', () => {
   let app: NestFastifyApplication;
-  const inicialPokemons = [
+  const gymsMock = [
     {
-      name: 'Bulbasaur',
-      pokedexId: 1,
-      type: [pokeType.GRASS, pokeType.POISON],
-      imageURL: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png`,
-      level: 1,
+      city: 'string',
+      typeMedall: 'sah',
+      leader: 'dios',
+      imageMedall: 'xd',
+      recruits: [],
     },
     {
-      name: 'Ivysaur',
-      pokedexId: 2,
-      type: [pokeType.GRASS, pokeType.POISON],
-      imageURL: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png`,
-      level: 1,
-    },
-    {
-      name: 'Venusaur',
-      pokedexId: 3,
-      type: [pokeType.GRASS, pokeType.POISON],
-      imageURL: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/003.png`,
-      level: 1,
+      city: 'string2',
+      typeMedall: 'sah2',
+      leader: 'dios2',
+      imageMedall: 'xd',
+      recruits: [],
     },
   ];
 
@@ -57,12 +38,12 @@ describe('PokemonsController', () => {
   });
 
   describe('POST', () => {
-    describe('update 1 Pokemon', () => {
+    describe('update 1 gym', () => {
       test('should return 200 ', async () => {
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'POST',
-          payload: inicialPokemons[0],
-          url: `/pokemons/create`,
+          payload: gymsMock[0],
+          url: `/gyms/create`,
         });
 
         expect(statusCode).toEqual(200);
@@ -75,12 +56,13 @@ describe('PokemonsController', () => {
     });
   });
   describe('GET', () => {
-    describe('Get all pokemons', () => {
+    describe('Get all gym', () => {
       test('should return 200 ', async () => {
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'GET',
-          url: `/pokemons`,
+          url: `/gyms`,
         });
+        console.log(body);
         expect(statusCode).toEqual(200);
         expect(headers['content-type']).toEqual(
           'application/json; charset=utf-8',
@@ -90,17 +72,17 @@ describe('PokemonsController', () => {
       });
     });
 
-    describe('Get 1 pokemons', () => {
+    describe('Get 1 gym', () => {
       it('should return 200 ', async () => {
         const response = await app.inject({
           method: 'GET',
-          url: '/pokemons',
+          url: '/gyms',
         });
         const arrayJson = JSON.parse(response.body);
-
+        console.log(arrayJson);
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'GET',
-          url: `/pokemons/${arrayJson.pokemons[0]._id}`,
+          url: `/gyms/${arrayJson.gyms[0]._id}`,
         });
         expect(statusCode).toEqual(200);
         expect(headers['content-type']).toEqual(
@@ -111,12 +93,37 @@ describe('PokemonsController', () => {
       });
     });
   });
+
+  describe('PUT', () => {
+    describe('Edit 1 gym', () => {
+      test('Should return 200', async () => {
+        const response = await app.inject({
+          method: 'GET',
+          url: '/gyms',
+        });
+        const arrayJson = JSON.parse(response.body);
+        const { body, statusCode, headers, statusMessage } = await app.inject({
+          method: 'PUT',
+          payload: gymsMock[1],
+          url: `/gyms/update/${arrayJson.gyms[0]._id}`,
+        });
+
+        expect(statusCode).toEqual(200);
+        expect(headers['content-type']).toEqual(
+          'application/json; charset=utf-8',
+        );
+        expect(statusMessage).toEqual('OK');
+        expect(JSON.parse(body)).toMatchObject({});
+      });
+    });
+  });
+
   describe('DELETE', () => {
-    describe('Delete All Pokemons', () => {
+    describe('Delete All gym', () => {
       it('Should return 200', async () => {
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'DELETE',
-          url: '/pokemons/delete/all',
+          url: '/gyms/delete/all',
         });
         expect(statusCode).toEqual(200);
         expect(headers['content-type']).toEqual(

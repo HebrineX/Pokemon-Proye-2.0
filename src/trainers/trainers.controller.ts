@@ -91,13 +91,21 @@ export class TrainersController {
         message: `The ID ${trainerId} must be an legal ID Trainer`,
       });
     }
-    const deleteTrainer = await this.trainersServices.deletePokemon(trainerId);
+    const deleteTrainer = await this.trainersServices.deleteTrainer(trainerId);
 
     if (!deleteTrainer) throw new NotFoundException('Trainer Does Not exists');
 
     return res.status(HttpStatus.OK).send({
       message: 'Trainer Succefully Deleted',
       deleteTrainer,
+    });
+  }
+  @Delete('/delete/all')
+  async deleteAllPokemon(@Res() res: FastifyReply) {
+    const deleteAll = await this.trainersServices.deleteAll();
+    return res.status(HttpStatus.OK).send({
+      message: 'all Trainers Deleted succefully',
+      deleteAll,
     });
   }
 }

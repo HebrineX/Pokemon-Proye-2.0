@@ -39,8 +39,12 @@ export class TrainersService {
     return updateTrainer;
   }
 
-  async deletePokemon(trainerId: string): Promise<TrainerDocument> {
+  async deleteTrainer(trainerId: string): Promise<TrainerDocument> {
     const deleteTrainer = await this.trainerModel.findByIdAndDelete(trainerId);
     return deleteTrainer;
+  }
+  async deleteAll() {
+    const deleteTrainers = await this.trainerModel.deleteMany();
+    return deleteTrainers;
   }
 }
