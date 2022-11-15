@@ -1,22 +1,4 @@
-const pokeType = {
-  GRASS: 'Grass',
-  POISON: 'Poison',
-  BUG: 'Bug',
-  ELECTRIC: 'Electric',
-  DRAGON: 'Dragon',
-  FIGHTING: 'Fighting',
-  FIRE: 'Fire',
-  FLYING: 'Flying',
-  FAIRY: 'Fairy',
-  GHOST: 'Ghost',
-  GROUND: 'Ground',
-  ICE: 'Ice',
-  STEEL: 'Stell',
-  NORMAL: 'Normal',
-  PSYCHIC: 'Psychic',
-  ROCK: 'Rock',
-  WATER: 'Water',
-};
+import { pokeType } from './pokeType';
 export const pokemonsFirstGen = [
   {
     name: 'Bulbasaur',

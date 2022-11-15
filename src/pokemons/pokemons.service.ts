@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreatePokemonDTO } from './dto/pokemon.dto';
 import { Pokemon, PokemonDocument } from './model/pokemons.model';
+import { response } from 'express';
 @Injectable()
 export class PokemonsService {
   constructor(
@@ -95,5 +96,9 @@ export class PokemonsService {
       await this.pokemonModel.create(element);
     }
     return pokeArray;
+  }
+  async deleteAll() {
+    const deletePokimon = await this.pokemonModel.deleteMany();
+    return deletePokimon;
   }
 }

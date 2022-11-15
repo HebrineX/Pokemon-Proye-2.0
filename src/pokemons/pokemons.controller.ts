@@ -131,4 +131,13 @@ export class PokemonsController {
       createPoke,
     });
   }
+
+  @Delete('/delete/all')
+  async deleteAllPokemon(@Res() res: FastifyReply) {
+    const deleteAll = await this.pokemonsServices.deleteAll();
+    return res.status(HttpStatus.OK).send({
+      message: 'all Pokemon Deleted succefully',
+      deleteAll,
+    });
+  }
 }
