@@ -4,7 +4,6 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Trainer } from '../model/trainer.model';
 import { TrainersModule } from '../trainers.module';
 import { TrainersService } from '../trainers.service';
-import { async } from 'rxjs';
 
 describe('TrainersController', () => {
   let controller: TrainersController;
@@ -24,5 +23,8 @@ describe('TrainersController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+  it('should be defined', () => {
+    expect(trainerService).toBeDefined();
   });
 });

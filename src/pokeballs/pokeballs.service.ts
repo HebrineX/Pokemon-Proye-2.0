@@ -45,4 +45,9 @@ export class PokeballsService {
     );
     return deletePokeball;
   }
+
+  async deleteAll() {
+    const deletePokeballs = await this.pokeballModel.deleteMany();
+    return deletePokeballs;
+  }
 }

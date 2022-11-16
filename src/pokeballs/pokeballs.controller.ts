@@ -18,7 +18,7 @@ import { CreatePokeballDto } from './dto/create-pokeball.dto';
 export class PokeballsController {
   constructor(private readonly pokeballsService: PokeballsService) {}
 
-  @Get()
+  @Get('/')
   async getPokeballs(@Res() res: FastifyReply) {
     const allPokeballs = await this.pokeballsService.getPokeballs();
     return res.status(HttpStatus.OK).send({
@@ -27,7 +27,7 @@ export class PokeballsController {
     });
   }
 
-  @Get(':idPokeball')
+  @Get('/:idPokeball')
   async getPokeball(
     @Res() res: FastifyReply,
     @Param('idPokeball') idPokeball: string,
@@ -45,7 +45,7 @@ export class PokeballsController {
     });
   }
 
-  @Post()
+  @Post('/create')
   async createPokeball(
     @Res() res: FastifyReply,
     @Body() createPokeballDto: CreatePokeballDto,
@@ -59,7 +59,7 @@ export class PokeballsController {
     });
   }
 
-  @Put(':idPokeball')
+  @Put('/update/:idPokeball')
   async updatePokeball(
     @Res() res: FastifyReply,
     @Param('idPokeball') idPokeball: string,
@@ -82,7 +82,7 @@ export class PokeballsController {
     });
   }
 
-  @Delete(':idPokeball')
+  @Delete('/delete/:idPokeball')
   async deletePokeball(
     @Res() res: FastifyReply,
     @Param('idPokeball') idPokeball: string,
@@ -100,6 +100,14 @@ export class PokeballsController {
     return res.status(HttpStatus.OK).send({
       message: 'Pokeball delete Succefully',
       deletePokeball,
+    });
+  }
+  @Delete('/delete/all')
+  async deleteAllPokeballs(@Res() res: FastifyReply) {
+    const deleteAll = await this.pokeballsService.deleteAll();
+    return res.status(HttpStatus.OK).send({
+      message: 'all Pokeballs Deleted succefully',
+      deleteAll,
     });
   }
 }
