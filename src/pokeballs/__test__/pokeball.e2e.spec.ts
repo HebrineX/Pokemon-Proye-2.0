@@ -58,7 +58,6 @@ describe('Pokeballs endpoints', () => {
           method: 'GET',
           url: `/pokeballs`,
         });
-        console.log(body);
         expect(statusCode).toEqual(200);
         expect(headers['content-type']).toEqual(
           'application/json; charset=utf-8',
@@ -75,7 +74,6 @@ describe('Pokeballs endpoints', () => {
           url: '/pokeballs',
         });
         const arrayJson = JSON.parse(response.body);
-        console.log(arrayJson);
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'GET',
           url: `/pokeballs/${arrayJson.allPokeballs[0]._id}`,
