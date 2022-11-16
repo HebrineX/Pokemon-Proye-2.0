@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { PokemonsModule } from './pokemons/pokemons.module';
 import { PokeballsModule } from './pokeballs/pokeballs.module';
 import { TrainersModule } from './trainers/trainers.module';
@@ -20,8 +18,6 @@ import config from './config';
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(config.DATABASE_URL),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {
   static port: number;
