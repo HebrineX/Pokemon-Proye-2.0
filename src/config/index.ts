@@ -1,5 +1,5 @@
 const config = {
-  DATABASE_URL: 'SA',
+  DATABASE_URL: process.env.DATABASE_URL_DEV,
   PORT: process.env.PORT,
 };
 
