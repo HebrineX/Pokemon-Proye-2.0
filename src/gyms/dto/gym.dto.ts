@@ -1,7 +1,14 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateGymDTO {
-  readonly city: string;
-  readonly typeMedall: string;
-  readonly leader: string;
-  readonly imageMedall: string;
-  readonly recruits: string[];
+  @ApiProperty()
+  city: string;
+  @ApiProperty()
+  typeMedall: string;
+  @ApiProperty()
+  leader: string;
+  @ApiProperty()
+  imageMedall: string;
+  @ApiProperty()
+  recruits: string[];
 }

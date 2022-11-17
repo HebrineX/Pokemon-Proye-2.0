@@ -18,16 +18,14 @@ async function bootstrap() {
   );
 
   const options = new DocumentBuilder()
-    .setTitle('PokeApi')
+    .setTitle('PokeProyect 2.0')
     .setDescription('This is my description')
     .setVersion('2.0')
-    .addTag('All')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
 
   SwaggerModule.setup('api/docs', app, document, {
-    explorer: true,
     swaggerOptions: {
       filter: true,
       showRequestDuration: true,
