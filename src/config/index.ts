@@ -1,12 +1,13 @@
 const config = {
-  DATABASE_URL: process.env.DATABASE_URL_DEV,
+  DATABASE_URL: 'SA',
   PORT: process.env.PORT,
 };
-console.log(config.DATABASE_URL);
 
 if (process.env.NODE_TEST) {
   config.DATABASE_URL = process.env.DATABASE_URL_TEST;
 }
+if (process.env.NODE_DEV) {
+  config.DATABASE_URL = process.env.DATABASE_URL_DEV;
+}
 
-console.log(config.DATABASE_URL);
 export default config;

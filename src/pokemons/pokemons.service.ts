@@ -96,4 +96,8 @@ export class PokemonsService {
     }
     return pokeArray;
   }
+  async deleteAll() {
+    const deletePokimon = await this.pokemonModel.deleteMany();
+    return deletePokimon;
+  }
 }

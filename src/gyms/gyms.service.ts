@@ -38,4 +38,8 @@ export class GymsService {
     const deleteGym = await this.gymModel.findByIdAndDelete(gymId);
     return deleteGym;
   }
+  async deleteAll() {
+    const deleteAll = await this.gymModel.deleteMany();
+    return deleteAll;
+  }
 }

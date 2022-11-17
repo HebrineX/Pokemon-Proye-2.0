@@ -19,7 +19,7 @@ export class GymsController {
 
   @Get('/')
   async getGyms(@Res() res: FastifyReply) {
-    const gyms = this.gymServices.getGyms();
+    const gyms = await this.gymServices.getGyms();
     return res.status(HttpStatus.OK).send({
       message: 'Gyms in Database',
       gyms,
@@ -79,6 +79,15 @@ export class GymsController {
     return res.status(HttpStatus.OK).send({
       message: 'The gym has been successfully deleted',
       deleteGym,
+    });
+  }
+
+  @Delete('/delete/all')
+  async deleteAllPokemon(@Res() res: FastifyReply) {
+    const deleteAll = await this.gymServices.deleteAll();
+    return res.status(HttpStatus.OK).send({
+      message: 'all gyms Deleted succefully',
+      deleteAll,
     });
   }
 }
