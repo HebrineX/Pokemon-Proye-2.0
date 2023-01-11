@@ -13,12 +13,18 @@ import {
 import { FastifyReply } from 'fastify';
 import { PokeballsService } from './pokeballs.service';
 import { CreatePokeballDto } from './dto/create-pokeball.dto';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 
+@ApiTags('Pokeballs')
 @Controller('pokeballs')
 export class PokeballsController {
   constructor(private readonly pokeballsService: PokeballsService) {}
 
-  @Get()
+  @Get('/')
+  @ApiResponse({
+    status: 200,
+    description: 'Pokeballs in Database.',
+  })
   async getPokeballs(@Res() res: FastifyReply) {
     const allPokeballs = await this.pokeballsService.getPokeballs();
     return res.status(HttpStatus.OK).send({
@@ -27,7 +33,15 @@ export class PokeballsController {
     });
   }
 
-  @Get(':idPokeball')
+  @Get('/:idPokeball')
+  @ApiResponse({
+    status: 200,
+    description: 'Searched Pokeball by ID.',
+  })
+  @ApiResponse({
+    status: 406,
+    description: 'The ID must be an legal ID Pokeball.',
+  })
   async getPokeball(
     @Res() res: FastifyReply,
     @Param('idPokeball') idPokeball: string,
@@ -45,7 +59,15 @@ export class PokeballsController {
     });
   }
 
-  @Post()
+  @Post('/create')
+  @ApiResponse({
+    status: 200,
+    description: 'Searched Pokeball by Pokedex.',
+  })
+  @ApiResponse({
+    status: 406,
+    description: 'Pokeball Does not exists in Database.',
+  })
   async createPokeball(
     @Res() res: FastifyReply,
     @Body() createPokeballDto: CreatePokeballDto,
@@ -59,7 +81,15 @@ export class PokeballsController {
     });
   }
 
-  @Put(':idPokeball')
+  @Put('/update/:idPokeball')
+  @ApiResponse({
+    status: 200,
+    description: 'Pokeball Edited Succefully.',
+  })
+  @ApiResponse({
+    status: 406,
+    description: 'Pokeball Does not exists in Database.',
+  })
   async updatePokeball(
     @Res() res: FastifyReply,
     @Param('idPokeball') idPokeball: string,
@@ -82,7 +112,15 @@ export class PokeballsController {
     });
   }
 
-  @Delete(':idPokeball')
+  @Delete('/delete/:idPokeball')
+  @ApiResponse({
+    status: 200,
+    description: 'Pokeball Deleted Succefully.',
+  })
+  @ApiResponse({
+    status: 406,
+    description: 'Pokeball Does not exists in Database.',
+  })
   async deletePokeball(
     @Res() res: FastifyReply,
     @Param('idPokeball') idPokeball: string,
@@ -100,6 +138,18 @@ export class PokeballsController {
     return res.status(HttpStatus.OK).send({
       message: 'Pokeball delete Succefully',
       deletePokeball,
+    });
+  }
+  @Delete('/delete/all')
+  @ApiResponse({
+    status: 200,
+    description: 'All Pokeball Deleted .',
+  })
+  async deleteAllPokeballs(@Res() res: FastifyReply) {
+    const deleteAll = await this.pokeballsService.deleteAll();
+    return res.status(HttpStatus.OK).send({
+      message: 'all Pokeballs Deleted succefully',
+      deleteAll,
     });
   }
 }

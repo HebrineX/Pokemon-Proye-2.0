@@ -7,6 +7,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import config from './config';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -15,6 +16,21 @@ async function bootstrap() {
       logger: true,
     }),
   );
+
+  const options = new DocumentBuilder()
+    .setTitle('PokeProyect 2.0')
+    .setDescription('This is my description')
+    .setVersion('2.0')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+
+  SwaggerModule.setup('/', app, document, {
+    swaggerOptions: {
+      filter: true,
+      showRequestDuration: true,
+    },
+  });
 
   await app.listen(config.PORT, '0.0.0.0');
 }

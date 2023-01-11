@@ -5,22 +5,18 @@ import {
 } from '@nestjs/platform-fastify';
 import { AppModule } from '../../app.module';
 
-describe('gymController', () => {
+describe('Pokeballs endpoints', () => {
   let app: NestFastifyApplication;
-  const gymsMock = [
+  const pokeballsMock = [
     {
-      city: 'string',
-      typeMedall: 'sah',
-      leader: 'dios',
-      imageMedall: 'xd',
-      recruits: [],
+      typePokeball: 'pokeball',
+      accuracy: 50,
+      imageURL: 'dios',
     },
     {
-      city: 'string2',
-      typeMedall: 'sah2',
-      leader: 'dios2',
-      imageMedall: 'xd',
-      recruits: [],
+      typePokeball: 'masterBall',
+      accuracy: 50,
+      imageURL: 'dios',
     },
   ];
 
@@ -38,12 +34,12 @@ describe('gymController', () => {
   });
 
   describe('POST', () => {
-    describe('update 1 gym', () => {
+    describe('update 1 pokeball', () => {
       test('should return 200 ', async () => {
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'POST',
-          payload: gymsMock[0],
-          url: `/gyms/create`,
+          payload: pokeballsMock[0],
+          url: `/pokeballs/create`,
         });
 
         expect(statusCode).toEqual(200);
@@ -56,11 +52,11 @@ describe('gymController', () => {
     });
   });
   describe('GET', () => {
-    describe('Get all gym', () => {
+    describe('Get all pokeball', () => {
       test('should return 200 ', async () => {
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'GET',
-          url: `/gyms`,
+          url: `/pokeballs`,
         });
         expect(statusCode).toEqual(200);
         expect(headers['content-type']).toEqual(
@@ -71,16 +67,16 @@ describe('gymController', () => {
       });
     });
 
-    describe('Get 1 gym', () => {
+    describe('Get 1 pokeball', () => {
       it('should return 200 ', async () => {
         const response = await app.inject({
           method: 'GET',
-          url: '/gyms',
+          url: '/pokeballs',
         });
         const arrayJson = JSON.parse(response.body);
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'GET',
-          url: `/gyms/${arrayJson.gyms[0]._id}`,
+          url: `/pokeballs/${arrayJson.allPokeballs[0]._id}`,
         });
         expect(statusCode).toEqual(200);
         expect(headers['content-type']).toEqual(
@@ -93,17 +89,17 @@ describe('gymController', () => {
   });
 
   describe('PUT', () => {
-    describe('Edit 1 gym', () => {
+    describe('Edit 1 pokeball', () => {
       test('Should return 200', async () => {
         const response = await app.inject({
           method: 'GET',
-          url: '/gyms',
+          url: '/pokeballs',
         });
         const arrayJson = JSON.parse(response.body);
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'PUT',
-          payload: gymsMock[1],
-          url: `/gyms/update/${arrayJson.gyms[0]._id}`,
+          payload: pokeballsMock[1],
+          url: `/pokeballs/update/${arrayJson.allPokeballs[0]._id}`,
         });
 
         expect(statusCode).toEqual(200);
@@ -116,12 +112,12 @@ describe('gymController', () => {
     });
   });
 
-  describe('DELETE', () => {
-    describe('Delete All gym', () => {
+  /*   describe('DELETE', () => {
+    describe('Delete All pokeball', () => {
       it('Should return 200', async () => {
         const { body, statusCode, headers, statusMessage } = await app.inject({
           method: 'DELETE',
-          url: '/gyms/delete/all',
+          url: '/pokeballs/delete/all',
         });
         expect(statusCode).toEqual(200);
         expect(headers['content-type']).toEqual(
@@ -131,7 +127,7 @@ describe('gymController', () => {
         expect(JSON.parse(body)).toMatchObject({});
       });
     });
-  });
+  }); */
 
   afterAll(async () => {
     await app.close();

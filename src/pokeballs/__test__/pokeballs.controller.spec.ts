@@ -24,4 +24,7 @@ describe('PokeballsController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+  it('should be defined', () => {
+    expect(pokeballsService).toBeDefined();
+  });
 });

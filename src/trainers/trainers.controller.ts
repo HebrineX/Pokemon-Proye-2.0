@@ -13,12 +13,18 @@ import {
 import { FastifyReply } from 'fastify';
 import { CreateTrainerDTO } from './dto/trainer.dto';
 import { TrainersService } from './trainers.service';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 
+@ApiTags('Trainers')
 @Controller('trainers')
 export class TrainersController {
   constructor(private trainersServices: TrainersService) {}
 
   @Get('/')
+  @ApiResponse({
+    status: 200,
+    description: 'Trainers in Database.',
+  })
   async getTrainers(@Res() res: FastifyReply) {
     const trainers = await this.trainersServices.getTrainers();
     return res.status(HttpStatus.OK).send({
@@ -28,6 +34,14 @@ export class TrainersController {
   }
 
   @Get(':trainerId')
+  @ApiResponse({
+    status: 200,
+    description: 'Searched Trainer by ID.',
+  })
+  @ApiResponse({
+    status: 406,
+    description: 'The ID must be an legal ID Trainer.',
+  })
   async getTrainer(
     @Res() res: FastifyReply,
     @Param('trainerId') trainerId: string,
@@ -46,6 +60,10 @@ export class TrainersController {
   }
 
   @Post('/create')
+  @ApiResponse({
+    status: 200,
+    description: 'Trainer Succefuly Create.',
+  })
   async createTrainer(
     @Res() res: FastifyReply,
     @Body() createTrainerDTO: CreateTrainerDTO,
@@ -60,6 +78,14 @@ export class TrainersController {
   }
 
   @Put('/update/:trainerId')
+  @ApiResponse({
+    status: 200,
+    description: 'Trainer Edited Succefully.',
+  })
+  @ApiResponse({
+    status: 406,
+    description: 'The ID must be an legal ID Trainer.',
+  })
   async updateTrainer(
     @Res() res: FastifyReply,
     @Body() createTrainerDTO: CreateTrainerDTO,
@@ -82,6 +108,14 @@ export class TrainersController {
   }
 
   @Delete('/delete/:trainerId')
+  @ApiResponse({
+    status: 200,
+    description: 'Trainer Succefully Deleted.',
+  })
+  @ApiResponse({
+    status: 406,
+    description: 'The ID must be an legal ID Trainer.',
+  })
   async deleteTrainer(
     @Res() res: FastifyReply,
     @Param('trainerId') trainerId: string,
@@ -101,10 +135,14 @@ export class TrainersController {
     });
   }
   @Delete('/delete/all')
+  @ApiResponse({
+    status: 200,
+    description: 'All Trainers Deleted succefully.',
+  })
   async deleteAllPokemon(@Res() res: FastifyReply) {
     const deleteAll = await this.trainersServices.deleteAll();
     return res.status(HttpStatus.OK).send({
-      message: 'all Trainers Deleted succefully',
+      message: 'All Trainers Deleted succefully',
       deleteAll,
     });
   }
